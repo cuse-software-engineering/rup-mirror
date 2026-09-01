@@ -5,29 +5,42 @@ unofficial academic mirror at <https://www.tesestec.com.br/pasteurjr/rup/> for u
 stable citation target in software-engineering coursework
 (see `cuse-software-engineering` assignment repos, e.g. `resources/rup-mirror` submodule).
 
+## Layout
+
+| Path | What it is |
+|---|---|
+| [`original/`](original/) | The mirrored site, **byte-identical to the source — never edited**. Maps 1:1 to `https://www.tesestec.com.br/pasteurjr/rup/<path>`. |
+| [`start.htm`](start.htm) | Added by us: modern front page — collapsible navigation tree (built from the applet's own data) + filter box + content pane. |
+| [`_mirror_extras/`](_mirror_extras/) | Added by us: `build_start.py`, which generates `start.htm` from `original/applet/*.dat`. |
+
 - **Source:** https://www.tesestec.com.br/pasteurjr/rup/index.htm (static Apache mirror; files last modified 2013-04-04)
 - **Fetched:** 2026-09-01
-- **Contents:** 2,034 files, ~35 MB — process pages, workflow details, activities, artifacts, roles, guidelines, templates, examples, manuals, and the Real-Time add-in subset hosted by the source.
+- **Contents:** 2,039 original files, ~35 MB — process pages, workflow details, activities, artifacts, roles, guidelines, templates, examples, manuals, and the Real-Time add-in subset hosted by the source.
 
 ## Copyright
 
 The Rational Unified Process is © IBM Corporation / Rational Software.
-This snapshot is kept **unmodified, in a private repository, solely for educational
-reference and link-rot protection** in university coursework. Do not make this
-repository public and do not redistribute its contents. See `copyrite/copyrite.htm`
-inside the mirror for the original notice.
+This snapshot is kept **in a private repository, solely for educational reference and
+link-rot protection** in university coursework. Everything under `original/` is
+unmodified; the only additions are the files listed in the table above, which contain
+no RUP content (the navigation tree is generated from the site's own data files at
+view-build time). Do not make this repository public and do not redistribute its
+contents. See `original/copyrite/copyrite.htm` for the original notice.
 
 ## Browsing locally
 
-Open [`index.htm`](index.htm) in a browser. Note that the original left-hand
-navigation is a Java applet (`applet/ruptools/TreeBrowse.class`) that modern browsers
-will not run. Use these plain-HTML entry points instead:
+Open [`start.htm`](start.htm) — modern navigation, original pages rendered untouched
+in the content pane. Deep-link a page as `start.htm#original/process/...`.
 
-- [`sitemap/sitemap.htm`](sitemap/sitemap.htm) — full site map
-- [`index/index.htm`](index/index.htm) — alphabetical index
-- [`process/ovu_proc.htm`](process/ovu_proc.htm) — process overview
-- [`process/glossary.htm`](process/glossary.htm) — glossary
-- Requirements workflow details: `process/workflow/requirem/wfd_req.htm`
+The original entry point [`original/index.htm`](original/index.htm) still works, but
+its left-hand navigation is a Java applet (`original/applet/ruptools/TreeBrowse.class`)
+that modern browsers will not run. Plain-HTML equivalents inside the original site:
+
+- [`original/sitemap/sitemap.htm`](original/sitemap/sitemap.htm) — full site map
+- [`original/index/index.htm`](original/index/index.htm) — alphabetical index
+- [`original/process/ovu_proc.htm`](original/process/ovu_proc.htm) — process overview
+- [`original/process/glossary.htm`](original/process/glossary.htm) — glossary
+- Requirements workflow details: `original/process/workflow/requirem/wfd_req.htm`
 
 ## How it was mirrored
 
@@ -41,10 +54,12 @@ site uses relative links throughout, so it is browsable as-is):
    (`addin_realtime/`, `rpw_gen/`), which wget cannot parse.
 3. Final pass for the six `process/plugins/ovu_*.htm` pages; converged with no new links.
 
-Additional manual recovery:
+Additional manual recovery (all from the same origin, all under `original/`):
 
 - `applet/ruptools/**/*.class` (8 files) — applet classes found by transitively
   reading class references; not discoverable by wget.
+- `applet/rpw_*_subtree.dat` (5 files) — tree data the applet lazy-loads for the
+  Phases / Disciplines / Roles / Artifacts / Tools branches; nothing links them.
 - 13 images referenced with Windows backslash paths (e.g.
   `process/workflow/test/images\…gif`) — fetched at their forward-slash locations.
 
