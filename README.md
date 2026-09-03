@@ -11,7 +11,8 @@ stable citation target in software-engineering coursework
 |---|---|
 | [`original/`](original/) | The mirrored site, **byte-identical to the source — never edited**. Maps 1:1 to `https://www.tesestec.com.br/pasteurjr/rup/<path>`. |
 | [`start.htm`](start.htm) | Added by us: modern front page — collapsible navigation tree (built from the applet's own data) + filter box + content pane. |
-| [`_mirror_extras/`](_mirror_extras/) | Added by us: `build_start.py`, which generates `start.htm` from `original/applet/*.dat`. |
+| [`_mirror_extras/`](_mirror_extras/) | Added by us: `build_start.py`, which generates `start.htm` from `original/applet/*.dat`; `fix_charset.py`, which audits the encoding of `original/` and writes the `charset=windows-1252` Content-Type rules into `vercel.json`. |
+| [`vercel.json`](vercel.json) | Added by us: hosting config — `/` rewrites to `start.htm`, and the generated charset headers (see *Hosting*). |
 
 - **Source:** https://www.tesestec.com.br/pasteurjr/rup/index.htm (static Apache mirror; files last modified 2013-04-04)
 - **Fetched:** 2026-09-01
@@ -41,6 +42,18 @@ that modern browsers will not run. Plain-HTML equivalents inside the original si
 - [`original/process/ovu_proc.htm`](original/process/ovu_proc.htm) — process overview
 - [`original/process/glossary.htm`](original/process/glossary.htm) — glossary
 - Requirements workflow details: `original/process/workflow/requirem/wfd_req.htm`
+
+## Hosting (Vercel)
+
+Deployed at <https://rup-mirror.vercel.app/> (`/` rewrites to `start.htm`; original pages
+live at `/original/<path>`). The original pages are Windows-1252 text (their `<meta>` says
+iso-8859-1, but they use cp1252 smart quotes and dashes), while Vercel serves every text file
+as `charset=utf-8` and the HTTP header beats the `<meta>` tag — so every no-break space and
+smart quote rendered as `�`. `vercel.json` therefore pins
+`Content-Type: …; charset=windows-1252` for `original/**/*.{htm,html,txt,dat}`. Those rules are
+generated: after re-fetching the mirror, re-run `python3 _mirror_extras/fix_charset.py`
+(`--dry-run` to only audit) instead of editing them by hand. Nothing under `original/` is
+transcoded.
 
 ## How it was mirrored
 

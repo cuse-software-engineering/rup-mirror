@@ -1,3 +1,28 @@
 {
-  "rewrites": [{ "source": "/", "destination": "/start.htm" }]
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/start.htm"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/original/(.*)\\.(htm|html)",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/html; charset=windows-1252"
+        }
+      ]
+    },
+    {
+      "source": "/original/(.*)\\.(dat|txt)",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/plain; charset=windows-1252"
+        }
+      ]
+    }
+  ]
 }
